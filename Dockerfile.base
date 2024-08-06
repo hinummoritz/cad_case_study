@@ -1,5 +1,6 @@
 FROM debian:latest
 
+# Install the required packages for FreeCAD
 RUN apt-get update && apt-get install -y \
     build-essential \
     python3 \
@@ -49,17 +50,21 @@ RUN apt-get update && apt-get install -y \
     git \
     wget
 
+# Create a virtual environment
 RUN python3 -m venv /opt/venv
 
+# Set the PATH so that the virtual environment is used
 ENV PATH="/opt/venv/bin:$PATH"
 
 
+# Clone the FreeCAD repository
 RUN git clone https://github.com/FreeCAD/FreeCAD.git /usr/local/src/freecad
 
 # Checkout the specific verwsion
 WORKDIR /usr/local/src/freecad
 RUN git checkout 0.21.2
 
+# Install the required packages for FreeCAD installation
 RUN apt-get update && apt-get install -y qttools5-dev qtwebengine5-dev libocct*-dev
 
 # Create a build directory
@@ -81,7 +86,3 @@ ENV PATH="/usr/local/bin:${PATH}"
 # Now you can upgrade pip
 RUN pip install --upgrade pip
 
-# COPY . /home/site/wwwroot
-
-# RUN cd /home/site/wwwroot && \
-#     pip install -r requirements.txt

@@ -1,7 +1,5 @@
-FROM mhinum/freecadcmd-python3:v1.0
+FROM mhinum/freecadcmd-python3:v2.0
 
 COPY . /home/site/wwwroot
-
-RUN cd /home/site/wwwroot
 
 CMD ["FreeCADCmd", "/home/site/wwwroot/freecad_script.py"]
