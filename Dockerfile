@@ -2,6 +2,8 @@ FROM debian:latest
 
 RUN apt-get update && apt-get install -y \
     build-essential \
+    python3 \
+    python3-pip \
     cmake \
     libboost-dev \
     libboost-filesystem-dev \
@@ -69,6 +71,8 @@ RUN make install
 
 # Set the PATH so that FreeCAD can be found
 ENV PATH="/usr/local/bin:${PATH}"
+
+# Now you can upgrade pip
 RUN pip3 install --upgrade pip
 
 # COPY . /home/site/wwwroot
