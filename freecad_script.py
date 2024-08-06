@@ -2,8 +2,6 @@ import FreeCAD as App
 import Part
 import Draft
 import Points
-import numpy as np
-import os
 #For local testing
 
 
@@ -41,7 +39,7 @@ def collapse_to_2D(doc):
     return objs
 
 
-step_file_path = "./data/example.STEP"
+step_file_path = "/home/site/wwwroot/data/example.STEP"
 doc = load_step_file(step_file_path)
 extents = get_extents(doc)
 
