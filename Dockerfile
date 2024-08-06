@@ -1,0 +1,77 @@
+FROM debian:latest
+
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    libboost-dev \
+    libboost-filesystem-dev \
+    libboost-program-options-dev \
+    libboost-python-dev \
+    libboost-regex-dev \
+    libboost-thread-dev \
+    libcoin-dev \
+    libeigen3-dev \
+    libgts-bin \
+    libgts-dev \
+    libkdtree++-dev \
+    libmedc-dev \
+    libopencv-dev \
+    libproj-dev \
+    libvtk9-dev \
+    python3-dev \
+    qtbase5-dev \
+    qttools5-dev-tools \
+    libqt5opengl5-dev \
+    libqt5svg5-dev \
+    libqt5webkit5-dev \
+    libqt5xmlpatterns5-dev \
+    libxerces-c-dev \
+    libzipios++-dev \
+    zlib1g-dev \
+    libfreetype6-dev \
+    liboce-foundation-dev \
+    liboce-modeling-dev \
+    liboce-ocaf-dev \
+    liboce-visualization-dev \
+    oce-draw \
+    libtbb-dev \
+    libpyside2-dev \
+    libshiboken2-dev \
+    python3-pyside2.qtcore \
+    python3-pyside2.qtgui \
+    python3-pyside2.qtsvg \
+    python3-pyside2.qtwidgets \
+    python3-matplotlib \
+    swig \
+    git \
+    wget
+
+RUN git clone https://github.com/FreeCAD/FreeCAD.git /usr/local/src/freecad
+
+# Checkout the specific verwsion
+WORKDIR /usr/local/src/freecad
+RUN git checkout 0.21.2
+
+RUN apt-get update && apt-get install -y qttools5-dev qtwebengine5-dev libocct*-dev
+
+# Create a build directory
+RUN mkdir build
+WORKDIR /usr/local/src/freecad/build
+
+# Configure the build
+RUN cmake -DBUILD_QT5=ON -DPYTHON_EXECUTABLE=/usr/bin/python3 ..
+
+# Build FreeCAD
+RUN make -j2
+
+# Install FreeCAD
+RUN make install
+
+# Set the PATH so that FreeCAD can be found
+ENV PATH="/usr/local/bin:${PATH}"
+RUN pip3 install --upgrade pip
+
+# COPY . /home/site/wwwroot
+
+# RUN cd /home/site/wwwroot && \
+#     pip install -r requirements.txt
