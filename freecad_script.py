@@ -1,9 +1,6 @@
 import FreeCAD as App
 import Part
 import Draft
-import Points
-#For local testing
-
 
 def load_step_file(step_file_path):
 
@@ -12,8 +9,9 @@ def load_step_file(step_file_path):
     doc.FileName = "example" + ".FCStd"
 
     #Read the step file
-    shape=Part.Shape()
-    shape.read(step_file_path)
+    # shape=Part.Shape()
+    # shape.read(step_file_path)
+    shape = Part.read(step_file_path)
 
     #Add the shape to the document
     doc.addObject("Part::Feature", "Object3D")
@@ -42,7 +40,8 @@ def collapse_to_2D(doc):
 step_file_path = "/home/site/wwwroot/data/example.STEP"
 doc = load_step_file(step_file_path)
 extents = get_extents(doc)
+objs = collapse_to_2D(doc)
 
-print(extents)
+print(extents, objs)
 
 
