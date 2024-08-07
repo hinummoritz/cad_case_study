@@ -49,6 +49,7 @@ doc = load_step_file(step_file_path)
 extents = get_extents(doc)
 objs = collapse_to_2D(doc)
 
-print(extents, objs, doc.Object3D)
+print(doc.Object3D)
+print(extents)
 
 
